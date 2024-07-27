@@ -1,3 +1,22 @@
 {
-  "extends": ["next/babel", "next/core-web-vitals"]
+  "extends": [
+    "next/babel",
+    "next/core-web-vitals",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["import"],
+  "rules": {
+    "no-multiple-empty-lines": [
+      "error",
+      { "max": 1, "maxEOF": 0, "maxBOF": 0 }
+    ],
+    "import/no-unused-modules": [
+      "warn",
+      {
+        "unusedExports": true
+      }
+    ]
+  }
 }

@@ -24,11 +24,11 @@ const Header = () => {
   return (
     <AppBar
       position="static"
-      color="primary"
       sx={{
         width: '100%',
         backgroundColor: 'transparent',
         paddingY: 2,
+        marginBottom: 2,
       }}
       elevation={1}
     >

@@ -5,7 +5,6 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { PostSimpleView } from "./_components"
 
-
 const PostsPage = () => {
   const featuredPosts = [
     {
@@ -58,6 +57,8 @@ const PostsPage = () => {
       ))}
     </Box>
   )
+
+
 }
 
 export default PostsPage

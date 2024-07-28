@@ -1,11 +1,13 @@
 'use client'
 
-import { Box } from '@mui/material'
-import Card from '@mui/material/Card'
-import CardActionArea from '@mui/material/CardActionArea'
-import CardContent from '@mui/material/CardContent'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  Grid,
+  Typography,
+} from '@mui/material'
+import dayjs from 'dayjs'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 
@@ -31,6 +33,10 @@ const PostSimpleView = ({ post }) => {
                 maxWidth: { md: '70%', sm: '100%' },
               }}
             >
+              <Typography variant="subtitle1" color="text.secondary">
+                {dayjs(post.date).format('MMM DD, YYYY')} |{' '}
+                {post.author || 'Unknown'}
+              </Typography>
               <Typography
                 component="h2"
                 variant="h5"
@@ -45,11 +51,7 @@ const PostSimpleView = ({ post }) => {
               >
                 {post.title}
               </Typography>
-              <Box display="flex" gap={1}>
-                <Typography variant="subtitle1" color="text.secondary">
-                  {post.date || 'Unknown'} | {post.author || 'Unknown'}
-                </Typography>
-              </Box>
+
               <Typography
                 variant="subtitle1"
                 paragraph
@@ -62,25 +64,12 @@ const PostSimpleView = ({ post }) => {
                   height: '3.6em',
                 }}
               >
-                {post.description || post.body}
+                {post.content}
               </Typography>
               <Typography variant="subtitle1" color="primary">
                 Continue reading...
               </Typography>
             </CardContent>
-            {/* <Box width={150} display="flex">
-              <CardMedia
-                component="img"
-                sx={{
-                  height: 160,
-                  width: '100%',
-                  objectFit: 'cover',
-                  display: { xs: 'block', sm: 'block' },
-                }}
-                image={post.image}
-                alt={post.imageLabel}
-              />
-            </Box> */}
           </Card>
         </Link>
       </CardActionArea>
@@ -90,13 +79,10 @@ const PostSimpleView = ({ post }) => {
 
 PostSimpleView.propTypes = {
   post: PropTypes.shape({
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     date: PropTypes.string,
     author: PropTypes.string,
-    description: PropTypes.string,
-    body: PropTypes.string,
-    image: PropTypes.string,
-    imageLabel: PropTypes.string,
+    content: PropTypes.string,
   }),
 }
 

@@ -1,11 +1,16 @@
 'use client'
 
+import { usePostsActions } from '@/app/posts/hooks'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, TextField, Typography } from '@mui/material'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import schema from './schema'
 
 const PostCreatePage = () => {
+  const { submitPost } = usePostsActions()
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -14,9 +19,9 @@ const PostCreatePage = () => {
     resolver: zodResolver(schema),
   })
 
-  const onSubmit = data => {
-    console.log(data)
-    // Тут можна виконати відправку даних на сервер
+  const onSubmit = async data => {
+    await submitPost(data)
+    router.replace('/posts')
   }
 
   return (

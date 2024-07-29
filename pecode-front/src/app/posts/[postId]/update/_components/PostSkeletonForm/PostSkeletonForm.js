@@ -3,6 +3,7 @@ import { Box, Skeleton, Typography } from '@mui/material'
 const PostSkeletonForm = () => {
   return (
     <Box
+      data-testid="post-skeleton-item"
       sx={{
         display: 'flex',
         flexDirection: 'column',

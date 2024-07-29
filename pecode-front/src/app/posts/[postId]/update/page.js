@@ -1,10 +1,11 @@
 'use client'
 
+import { CustomSnackbar } from '@/app/_components'
 import { useFetchPost, usePostsActions } from '@/app/posts/hooks'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, TextField, Typography } from '@mui/material'
 import { useParams, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import schema from '../../schema'
 import { PostSkeletonForm } from './_components'
@@ -24,6 +25,10 @@ const PostUpdatePage = () => {
     resolver: zodResolver(schema),
   })
 
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('')
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success')
+
   useEffect(() => {
     if (post) {
       reset(post)
@@ -35,8 +40,14 @@ const PostUpdatePage = () => {
   const onSubmit = async data => {
     try {
       await updatePost(postId, data)
+      setSnackbarMessage('Post updated successfully!')
+      setSnackbarSeverity('success')
+      setSnackbarOpen(true)
       router.back()
     } catch (updateError) {
+      setSnackbarMessage('Update failed!')
+      setSnackbarSeverity('error')
+      setSnackbarOpen(true)
       console.error('Update failed:', updateError)
     }
   }
@@ -103,6 +114,13 @@ const PostUpdatePage = () => {
       >
         Update Post
       </Button>
+
+      <CustomSnackbar
+        open={snackbarOpen}
+        onClose={() => setSnackbarOpen(false)}
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+      />
     </Box>
   )
 }

@@ -48,8 +48,6 @@ const PostsPage = () => {
     )
   }
 
-  console.log("openSnackbar: ", openSnackbar)
-
   return (
     <Box display="flex" flexDirection="column" gap={2}>
       <CustomSnackbar

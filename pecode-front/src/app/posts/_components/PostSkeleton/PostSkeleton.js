@@ -1,8 +1,9 @@
+// src/app/posts/_components/PostSkeleton.js
 import { Card, CardContent, Grid, Skeleton } from '@mui/material'
 
 const PostSkeleton = () => {
   return (
-    <Grid item xs={12} md={6}>
+    <Grid item xs={12} md={6} data-testid="post-skeleton-item">
       <Card
         sx={{
           display: 'flex',

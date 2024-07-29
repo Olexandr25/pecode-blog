@@ -1,5 +1,6 @@
 'use client'
 
+import { CustomSnackbar } from '@/app/_components'
 import { usePostsActions } from '@/app/posts/hooks'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, TextField, Typography } from '@mui/material'
@@ -12,6 +13,7 @@ const PostCreatePage = () => {
   const { submitPost } = usePostsActions()
   const router = useRouter()
   const [errorMessage, setErrorMessage] = useState('')
+  const [openSnackbar, setOpenSnackbar] = useState(false)
 
   const {
     register,
@@ -27,7 +29,12 @@ const PostCreatePage = () => {
       router.replace('/posts')
     } catch (error) {
       setErrorMessage('Failed to create post')
+      setOpenSnackbar(true)
     }
+  }
+
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false)
   }
 
   return (
@@ -78,11 +85,12 @@ const PostCreatePage = () => {
         helperText={errors.author?.message}
         margin="normal"
       />
-      {errorMessage && (
-        <Typography color="error" variant="body2" sx={{ mt: 1 }}>
-          {errorMessage}
-        </Typography>
-      )}
+      <CustomSnackbar
+        open={openSnackbar}
+        message={errorMessage}
+        handleClose={handleSnackbarClose}
+        severity="error"
+      />
       <Button
         type="submit"
         fullWidth

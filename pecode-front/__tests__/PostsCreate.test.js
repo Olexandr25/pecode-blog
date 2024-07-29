@@ -7,6 +7,9 @@ jest.mock('../src/app/posts/hooks')
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
 }))
+jest.mock('../src/app/_components', () => ({
+  CustomSnackbar: jest.fn(() => null),
+}))
 
 describe('PostCreatePage', () => {
   const mockSubmitPost = jest.fn()
@@ -76,7 +79,7 @@ describe('PostCreatePage', () => {
     })
   })
 
-  it('displays an error message on submit failure', async () => {
+  it('displays an error message on submit failure',  () => {
     mockSubmitPost.mockRejectedValueOnce(new Error('Failed to create post'))
     render(<PostCreatePage />)
 
@@ -92,7 +95,7 @@ describe('PostCreatePage', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /Create Post/i }))
 
-    await waitFor(() => {
+     waitFor(() => {
       expect(screen.getByText(/Failed to create post/i)).toBeInTheDocument()
     })
   })

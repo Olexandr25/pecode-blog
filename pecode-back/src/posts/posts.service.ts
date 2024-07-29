@@ -10,15 +10,16 @@ export class PostsService {
   private idCounter = 1;
 
   findAll(sortOrder: 'asc' | 'desc' = 'desc'): Post[] {
-    return this.posts.sort((a, b) => {
+    const sortedPosts = [...this.posts].sort((a, b) => {
       return sortOrder === 'asc'
         ? dayjs(a.createdAt).valueOf() - dayjs(b.createdAt).valueOf()
         : dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf();
     });
+    return sortedPosts;
   }
 
-  findOne(id: number): Post {
-    return this.posts.find((post) => post.id === id);
+  findOne(id: number): Post | null {
+    return this.posts.find((post) => post.id === id) || null;
   }
 
   create(createPostDto: CreatePostDto): Post {
@@ -31,10 +32,10 @@ export class PostsService {
     return newPost;
   }
 
-  update(id: number, updatePostDto: UpdatePostDto): Post {
+  update(id: number, updatePostDto: UpdatePostDto): Post | null {
     const postIndex = this.posts.findIndex((post) => post.id === id);
     if (postIndex === -1) return null;
-    // Updating the existing post with new data and setting updatedAt
+
     this.posts[postIndex] = {
       ...this.posts[postIndex],
       ...updatePostDto,

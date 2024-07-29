@@ -1,12 +1,11 @@
 'use client'
 
-import { Popconfirm } from '@/app/_components'
+import { CustomSnackbar, Popconfirm } from '@/app/_components'
 import { useFetchPost, usePostsActions } from '@/app/posts/hooks'
 import { Box, Button, Typography } from '@mui/material'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import {
-  CustomSnackbar,
   PostAdvancedView,
   PostLoadingView,
 } from './_components'

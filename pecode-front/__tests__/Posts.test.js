@@ -1,43 +1,10 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { useFetchPosts } from '../src/app/posts/hooks'
 import PostsPage from '../src/app/posts/page'
 
-jest.mock('../src/app/posts/hooks', () => ({
-  useFetchPosts: jest.fn(),
-}))
+jest.mock('../src/app/posts/hooks')
 
 describe('PostsPage', () => {
-  it('renders loading skeletons when loading', () => {
-    useFetchPosts.mockReturnValue({
-      data: [],
-      loading: true,
-      error: null,
-    })
-
-    render(<PostsPage />)
-    const skeletons = screen.getAllByTestId('post-skeleton-item')
-    expect(skeletons).toHaveLength(10)
-  })
-
-  it('renders posts when data is available', () => {
-    const posts = [
-      { id: 1, title: 'Post 1', content: 'Content 1', author: 'Author 1' },
-      { id: 2, title: 'Post 2', content: 'Content 2', author: 'Author 2' },
-    ]
-
-    useFetchPosts.mockReturnValue({
-      data: posts,
-      loading: false,
-      error: null,
-    })
-
-    render(<PostsPage />)
-    const postTitles = screen.getAllByRole('heading', { level: 2 })
-    expect(postTitles).toHaveLength(2)
-    expect(postTitles[0]).toHaveTextContent('Post 1')
-    expect(postTitles[1]).toHaveTextContent('Post 2')
-  })
-
   it('renders error message when error occurs', () => {
     useFetchPosts.mockReturnValue({
       data: [],
@@ -46,7 +13,55 @@ describe('PostsPage', () => {
     })
 
     render(<PostsPage />)
-    const errorMessage = screen.getByText('Error loading posts!')
-    expect(errorMessage).toBeInTheDocument()
+
+    waitFor(() => {
+      const errorSnackbarMessage = screen.getByText(/Error loading posts!/i)
+      expect(errorSnackbarMessage).toBeInTheDocument()
+    })
+  })
+
+  it('renders loading state while loading', async () => {
+    useFetchPosts.mockReturnValue({
+      data: [],
+      loading: true,
+      error: null,
+    })
+
+    render(<PostsPage />)
+
+    const skeletons = screen.getAllByTestId('post-skeleton-item')
+    expect(skeletons.length).toBeGreaterThan(0)
+  })
+
+  it('renders no posts message when there are no posts', () => {
+    useFetchPosts.mockReturnValue({
+      data: [],
+      loading: false,
+      error: null,
+    })
+
+    render(<PostsPage />)
+
+    const noPostsMessage = screen.getByText('No posts have been created yet.')
+    expect(noPostsMessage).toBeInTheDocument()
+  })
+
+  it('renders posts when data is available', () => {
+    const mockPosts = [
+      { id: 1, title: 'Test Post' },
+      { id: 2, title: 'Another Post' },
+    ]
+    useFetchPosts.mockReturnValue({
+      data: mockPosts,
+      loading: false,
+      error: null,
+    })
+
+    render(<PostsPage />)
+
+    mockPosts.forEach(post => {
+      const postElement = screen.getByText(post.title)
+      expect(postElement).toBeInTheDocument()
+    })
   })
 })

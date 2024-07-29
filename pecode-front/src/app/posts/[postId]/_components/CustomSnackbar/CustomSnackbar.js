@@ -30,10 +30,11 @@ const CustomSnackbar = ({ open, handleClose, message, severity }) => {
 }
 
 CustomSnackbar.propTypes = {
-  open: PropTypes.bool,
-  handleClose: PropTypes.func,
-  message: PropTypes.string,
-  severity: PropTypes.oneOf(['error', 'info']),
+  open: PropTypes.bool.isRequired,
+  message: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+  severity: PropTypes.oneOf(['error', 'info', 'success'])
 }
+
 
 export default CustomSnackbar

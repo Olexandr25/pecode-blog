@@ -3,6 +3,7 @@ import { Box, Skeleton } from '@mui/material'
 const PostLoadingView = () => {
   return (
     <Box
+      data-testid="post-skeleton-item"
       sx={{
         margin: 'auto',
         display: 'flex',

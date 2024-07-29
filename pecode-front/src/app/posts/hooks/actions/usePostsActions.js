@@ -14,8 +14,21 @@ const usePostsActions = () => {
     }
   }
 
+  const deletePost = async postId => {
+    try {
+      await axios.delete(`/api/posts/${postId}`)
+    } catch (error) {
+      console.error(
+        'Error deleting post:',
+        error.response?.data || error.message
+      )
+      throw error
+    }
+  }
+
   return {
     submitPost,
+    deletePost,
   }
 }
 

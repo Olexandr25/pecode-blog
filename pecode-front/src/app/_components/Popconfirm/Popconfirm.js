@@ -11,12 +11,12 @@ const Popconfirm = ({ title, onConfirm, onCancel, btnText = 'Delete' }) => {
   const handleClick = event => setAnchorEl(event.currentTarget)
 
   const handleConfirm = () => {
-    onConfirm()
+    onConfirm?.()
     handleClose()
   }
 
   const handleCancel = () => {
-    onCancel()
+    onCancel?.()
     handleClose()
   }
 

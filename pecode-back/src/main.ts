@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(PostsModule);
 
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,
@@ -24,7 +24,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(4000);
+  await app.listen(process.env.PORT || 4000);
 }
 
 bootstrap();

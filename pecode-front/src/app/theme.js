@@ -27,11 +27,11 @@ const theme = createTheme({
       color: '#1C2B32',
     },
   },
-  palette: {
-    primary: {
-      main: '#f74e31',
-    },
-  },
+  // palette: {
+  //   primary: {
+  //     main: '#f74e31',
+  //   },
+  // },
 })
 
 export default theme

@@ -1,5 +1,6 @@
 'use client'
 
+import { DATE_FORMATS } from '@/app/_constants'
 import {
   Card,
   CardActionArea,
@@ -15,7 +16,7 @@ const PostSimpleView = ({ post }) => {
   return (
     <Grid item xs={12} md={6}>
       <CardActionArea>
-        <Link href="/" passHref>
+        <Link href={`/posts/${post.id}`} passHref>
           <Card
             sx={{
               display: 'flex',
@@ -34,7 +35,7 @@ const PostSimpleView = ({ post }) => {
               }}
             >
               <Typography variant="subtitle1" color="text.secondary">
-                {dayjs(post.date).format('MMM DD, YYYY')} |{' '}
+                {dayjs(post.date).format(DATE_FORMATS.DATE)} |{' '}
                 {post.author || 'Unknown'}
               </Typography>
               <Typography
@@ -79,6 +80,7 @@ const PostSimpleView = ({ post }) => {
 
 PostSimpleView.propTypes = {
   post: PropTypes.shape({
+    id: PropTypes.string,
     title: PropTypes.string,
     date: PropTypes.string,
     author: PropTypes.string,

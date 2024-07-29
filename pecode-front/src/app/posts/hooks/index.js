@@ -1,3 +1,7 @@
-export { default as usePostsActions } from './actions/usePostsActions';
+// POST, PUT, DELETE
+export { default as usePostsActions } from './actions/usePostsActions'
 
-export { default as useFetchPosts } from './data/useFetchPosts';
+// Fetch documents from the server
+export { default as useFetchPost } from './data/useFetchPost'
+export { default as useFetchPosts } from './data/useFetchPosts'
+

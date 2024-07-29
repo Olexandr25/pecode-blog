@@ -10,10 +10,6 @@ const buttonConfigs = {
     text: 'ADD POST',
     href: '/posts/create',
   },
-  '/posts/update': {
-    text: 'UPDATE POST',
-    href: '/posts/update',
-  },
 }
 
 const Header = () => {

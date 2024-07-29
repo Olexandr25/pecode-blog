@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module';
+import { PostsModule } from './posts/posts.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(PostsModule);
 
   app.enableCors({
     origin: 'http://localhost:3000',
@@ -15,8 +15,8 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('My API')
-    .setDescription('API documentation for my application')
+    .setTitle('Blog API')
+    .setDescription('API documentation for the blog application')
     .setVersion('1.0')
     .addTag('posts')
     .build();

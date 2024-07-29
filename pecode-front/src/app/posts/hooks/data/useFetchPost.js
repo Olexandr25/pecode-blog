@@ -12,7 +12,7 @@ const useFetchPost = postId => {
     const fetchPost = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/posts/${postId}`
+          `/api/posts/${postId}`
         )
         setPost(response.data)
       } catch (err) {

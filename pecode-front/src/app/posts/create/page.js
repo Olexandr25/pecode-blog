@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, TextField, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import schema from './schema'
+import schema from '../schema'
 
 const PostCreatePage = () => {
   const { submitPost } = usePostsActions()

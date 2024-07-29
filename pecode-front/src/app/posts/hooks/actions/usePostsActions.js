@@ -14,6 +14,19 @@ const usePostsActions = () => {
     }
   }
 
+  const updatePost = async (postId, postData) => {
+    try {
+      const response = await axios.put(`/api/posts/${postId}`, postData)
+      return response.data
+    } catch (error) {
+      console.error(
+        'Error updating post:',
+        error.response?.data || error.message
+      )
+      throw error
+    }
+  }
+
   const deletePost = async postId => {
     try {
       await axios.delete(`/api/posts/${postId}`)
@@ -28,6 +41,7 @@ const usePostsActions = () => {
 
   return {
     submitPost,
+    updatePost,
     deletePost,
   }
 }

@@ -11,7 +11,7 @@ const useFetchPosts = () => {
       try {
         setLoading(true)
         const { data: response } = await axios.get(
-          'http://localhost:4000/posts'
+          '/api/posts'
         )
         setData(response)
       } catch (error) {

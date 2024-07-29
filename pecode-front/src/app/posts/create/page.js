@@ -4,12 +4,14 @@ import { usePostsActions } from '@/app/posts/hooks'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, TextField, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import schema from '../schema'
 
 const PostCreatePage = () => {
   const { submitPost } = usePostsActions()
   const router = useRouter()
+  const [errorMessage, setErrorMessage] = useState('')
 
   const {
     register,
@@ -20,8 +22,12 @@ const PostCreatePage = () => {
   })
 
   const onSubmit = async data => {
-    await submitPost(data)
-    router.replace('/posts')
+    try {
+      await submitPost(data)
+      router.replace('/posts')
+    } catch (error) {
+      setErrorMessage('Failed to create post')
+    }
   }
 
   return (
@@ -72,6 +78,11 @@ const PostCreatePage = () => {
         helperText={errors.author?.message}
         margin="normal"
       />
+      {errorMessage && (
+        <Typography color="error" variant="body2" sx={{ mt: 1 }}>
+          {errorMessage}
+        </Typography>
+      )}
       <Button
         type="submit"
         fullWidth

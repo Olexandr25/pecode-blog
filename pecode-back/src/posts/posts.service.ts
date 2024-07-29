@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import * as dayjs from 'dayjs'; // Використовуйте цей імпорт
+import * as dayjs from 'dayjs';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post } from './entities/post.entity';
@@ -34,7 +34,12 @@ export class PostsService {
   update(id: number, updatePostDto: UpdatePostDto): Post {
     const postIndex = this.posts.findIndex((post) => post.id === id);
     if (postIndex === -1) return null;
-    this.posts[postIndex] = { ...this.posts[postIndex], ...updatePostDto };
+    // Updating the existing post with new data and setting updatedAt
+    this.posts[postIndex] = {
+      ...this.posts[postIndex],
+      ...updatePostDto,
+      updatedAt: dayjs().toDate(),
+    };
     return this.posts[postIndex];
   }
 

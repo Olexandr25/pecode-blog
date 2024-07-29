@@ -4,4 +4,5 @@ export class Post {
   content: string;
   author: string;
   createdAt: Date;
+  updatedAt?: Date;
 }

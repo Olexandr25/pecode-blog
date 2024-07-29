@@ -80,7 +80,7 @@ const PostSimpleView = ({ post }) => {
 
 PostSimpleView.propTypes = {
   post: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     title: PropTypes.string,
     date: PropTypes.string,
     author: PropTypes.string,

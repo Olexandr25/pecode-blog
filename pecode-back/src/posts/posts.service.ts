@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { Post } from './entities/post.entity';
+import * as dayjs from 'dayjs'; // Використовуйте цей імпорт
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { Post } from './entities/post.entity';
 
 @Injectable()
 export class PostsService {
   private posts: Post[] = [];
   private idCounter = 1;
 
-  findAll(): Post[] {
-    return this.posts;
+  findAll(sortOrder: 'asc' | 'desc' = 'desc'): Post[] {
+    return this.posts.sort((a, b) => {
+      return sortOrder === 'asc'
+        ? dayjs(a.createdAt).valueOf() - dayjs(b.createdAt).valueOf()
+        : dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf();
+    });
   }
 
   findOne(id: number): Post {
@@ -19,7 +24,7 @@ export class PostsService {
   create(createPostDto: CreatePostDto): Post {
     const newPost: Post = {
       id: this.idCounter++,
-      createdAt: new Date(),
+      createdAt: dayjs().toDate(),
       ...createPostDto,
     };
     this.posts.push(newPost);

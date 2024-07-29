@@ -56,6 +56,9 @@ const PostCreatePage = () => {
         label="Content"
         multiline
         rows={4}
+        inputProps={{
+          style: { maxHeight: '300px', overflowY: 'auto' },
+        }}
         {...register('content')}
         error={!!errors.content}
         helperText={errors.content?.message}

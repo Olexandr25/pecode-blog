@@ -16,7 +16,11 @@ const PostAdvancedView = ({ title, author, content, createdAt }) => {
       <Typography sx={{ mb: 1 }} variant="subtitle1" color="text.secondary">
         {dayjs(createdAt).format(DATE_FORMATS.DATE)} | {author || 'Unknown'}
       </Typography>
-      <Typography variant="body1" paragraph>
+      <Typography
+        variant="body1"
+        paragraph
+        sx={{ mt: 2, whiteSpace: 'pre-wrap' }}
+      >
         {content}
       </Typography>
     </Box>

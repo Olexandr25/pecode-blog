@@ -8,9 +8,8 @@ const schema = z.object({
     .max(100, 'Title can be up to 100 characters long'),
   content: z
     .string()
-    .trim()
-    .min(20, 'Content must be at least 20 characters long')
-    .max(1000, 'Content can be up to 1000 characters long'),
+    .transform(str => str.replace(/^\s+|\s+$/g, ''))
+    .pipe(z.string().min(20, 'Content must be at least 20 characters long')),
   author: z
     .string()
     .trim()

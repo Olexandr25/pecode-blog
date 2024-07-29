@@ -1,17 +1,18 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   Put,
-  Delete,
-  Param,
-  Body,
+  Query,
 } from '@nestjs/common';
-import { PostsService } from './posts.service';
+import { ApiTags } from '@nestjs/swagger';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post as PostModel } from './entities/post.entity';
-import { ApiTags } from '@nestjs/swagger';
+import { PostsService } from './posts.service';
 
 @ApiTags('posts')
 @Controller('posts')
@@ -19,8 +20,8 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  findAll(): PostModel[] {
-    return this.postsService.findAll();
+  findAll(@Query('sortOrder') sortOrder: 'asc' | 'desc') {
+    return this.postsService.findAll(sortOrder);
   }
 
   @Get(':id')

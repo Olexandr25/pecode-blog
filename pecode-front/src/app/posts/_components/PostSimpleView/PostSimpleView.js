@@ -60,9 +60,10 @@ const PostSimpleView = ({ post }) => {
                   display: '-webkit-box',
                   overflow: 'hidden',
                   WebkitBoxOrient: 'vertical',
-                  WebkitLineClamp: 2,
+                  WebkitLineClamp: 1,
                   textOverflow: 'ellipsis',
-                  height: '3.6em',
+                  height: '2em',
+                  whiteSpace: 'pre-wrap',
                 }}
               >
                 {post.content}

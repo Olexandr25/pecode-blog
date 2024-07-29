@@ -8,7 +8,7 @@ const PostSkeleton = () => {
         sx={{
           display: 'flex',
           flexDirection: { xs: 'column', sm: 'row' },
-          height: 217,
+          height: 192,
           overflow: 'hidden',
         }}
       >

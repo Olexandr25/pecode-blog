@@ -1,9 +1,9 @@
 'use client'
 
-import { Logo } from '@/components'
 import { AppBar, Button, Container, Toolbar } from '@mui/material'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Logo } from './_components'
 
 const buttonConfigs = {
   '/posts': {

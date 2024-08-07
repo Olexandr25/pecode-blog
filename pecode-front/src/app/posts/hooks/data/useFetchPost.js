@@ -11,9 +11,7 @@ const useFetchPost = postId => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(
-          `/api/posts/${postId}`
-        )
+        const response = await axios.get(`/api/posts/${postId}`)
         setPost(response.data)
       } catch (err) {
         setError('Failed to fetch the post.')
@@ -23,8 +21,11 @@ const useFetchPost = postId => {
       }
     }
 
-    if (postId) {
+    if (typeof postId === 'number' && postId > 0) {
       fetchPost()
+    } else {
+      setLoading(false)
+      setError('Invalid postId.')
     }
   }, [postId])
 

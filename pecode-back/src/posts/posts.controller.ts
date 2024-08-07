@@ -41,7 +41,7 @@ export class PostsController {
   @ApiResponse({ status: 404, description: 'Post not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
   findOne(@Param('id') id: string): PostModel {
-    return this.postsService.findOne(+id);
+    return this.postsService.findOne(id);
   }
 
   @Post()
@@ -98,7 +98,7 @@ export class PostsController {
     @Param('id') id: string,
     @Body() updatePostDto: UpdatePostDto,
   ): PostModel {
-    return this.postsService.update(+id, updatePostDto);
+    return this.postsService.update(id, updatePostDto);
   }
 
   @Delete(':id')
@@ -107,7 +107,7 @@ export class PostsController {
   @ApiResponse({ status: 204, description: 'Post deleted successfully.' })
   @ApiResponse({ status: 404, description: 'Post not found.' })
   delete(@Param('id') id: string): void {
-    const success = this.postsService.delete(+id);
+    const success = this.postsService.delete(id);
     if (!success) {
       throw new NotFoundException('Post not found.');
     }

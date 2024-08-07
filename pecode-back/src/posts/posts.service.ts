@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import * as dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post } from './entities/post.entity';
@@ -11,7 +12,6 @@ import { Post } from './entities/post.entity';
 @Injectable()
 export class PostsService {
   private posts: Post[] = [];
-  private idCounter = 1;
 
   findAll(sortOrder: 'asc' | 'desc' = 'desc'): Post[] {
     try {
@@ -26,7 +26,7 @@ export class PostsService {
     }
   }
 
-  findOne(id: number): Post {
+  findOne(id: string): Post {
     const post = this.posts.find((post) => post.id === id);
     if (!post) {
       throw new NotFoundException('Post not found.');
@@ -37,7 +37,7 @@ export class PostsService {
   create(createPostDto: CreatePostDto): Post {
     try {
       const newPost: Post = {
-        id: this.idCounter++,
+        id: uuidv4(),
         createdAt: dayjs().toDate(),
         ...createPostDto,
       };
@@ -48,7 +48,7 @@ export class PostsService {
     }
   }
 
-  update(id: number, updatePostDto: UpdatePostDto): Post {
+  update(id: string, updatePostDto: UpdatePostDto): Post {
     const postIndex = this.posts.findIndex((post) => post.id === id);
     if (postIndex === -1) {
       throw new NotFoundException('Post not found.');
@@ -62,7 +62,7 @@ export class PostsService {
     return this.posts[postIndex];
   }
 
-  delete(id: number): boolean {
+  delete(id: string): boolean {
     const postIndex = this.posts.findIndex((post) => post.id === id);
     if (postIndex === -1) {
       throw new NotFoundException('Post not found.');

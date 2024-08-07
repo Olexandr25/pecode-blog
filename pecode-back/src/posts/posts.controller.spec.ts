@@ -39,7 +39,7 @@ describe('PostsController', () => {
             findAll: jest.fn().mockReturnValue([mockPost]),
             findOne: jest.fn().mockReturnValue(mockPost),
             update: jest.fn().mockReturnValue(mockPost),
-            delete: jest.fn().mockImplementation(() => {}),
+            delete: jest.fn().mockReturnValue({ success: true }),
           },
         },
       ],
@@ -60,6 +60,15 @@ describe('PostsController', () => {
       expect(service.findAll).toHaveBeenCalledWith('desc');
       expect(result).toEqual([mockPost]);
     });
+
+    it('should handle errors', async () => {
+      const error = new Error('An error occurred') as unknown as never;
+      jest.spyOn(service, 'findAll').mockRejectedValueOnce(error);
+
+      await expect(controller.findAll('desc')).rejects.toThrow(
+        'An error occurred',
+      );
+    });
   });
 
   describe('findOne', () => {
@@ -68,6 +77,15 @@ describe('PostsController', () => {
 
       expect(service.findOne).toHaveBeenCalledWith(1);
       expect(result).toEqual(mockPost);
+    });
+
+    it('should handle errors', async () => {
+      const error = new Error('An error occurred') as unknown as never;
+      jest.spyOn(service, 'findOne').mockRejectedValueOnce(error);
+
+      await expect(controller.findOne('1')).rejects.toThrow(
+        'An error occurred',
+      );
     });
   });
 
@@ -78,6 +96,15 @@ describe('PostsController', () => {
       expect(service.create).toHaveBeenCalledWith(mockPostDto);
       expect(result).toEqual(mockPost);
     });
+
+    it('should handle errors', async () => {
+      const error = new Error('An error occurred') as unknown as never;
+      jest.spyOn(service, 'create').mockRejectedValueOnce(error);
+
+      await expect(controller.create(mockPostDto)).rejects.toThrow(
+        'An error occurred',
+      );
+    });
   });
 
   describe('update', () => {
@@ -87,6 +114,15 @@ describe('PostsController', () => {
       expect(service.update).toHaveBeenCalledWith(1, mockUpdatePostDto);
       expect(result).toEqual(mockPost);
     });
+
+    it('should handle errors', async () => {
+      const error = new Error('An error occurred') as unknown as never;
+      jest.spyOn(service, 'update').mockRejectedValueOnce(error);
+
+      await expect(controller.update('1', mockUpdatePostDto)).rejects.toThrow(
+        'An error occurred',
+      );
+    });
   });
 
   describe('delete', () => {
@@ -94,7 +130,14 @@ describe('PostsController', () => {
       const result = controller.delete('1');
 
       expect(service.delete).toHaveBeenCalledWith(1);
-      expect(result).toBeUndefined();
+      expect(result).toEqual({ success: true });
+    });
+
+    it('should handle errors', async () => {
+      const error = new Error('An error occurred') as unknown as never;
+      jest.spyOn(service, 'delete').mockRejectedValueOnce(error);
+
+      await expect(controller.delete('1')).rejects.toThrow('An error occurred');
     });
   });
 });

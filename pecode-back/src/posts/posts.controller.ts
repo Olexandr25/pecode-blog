@@ -1,10 +1,12 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
   HttpCode,
   HttpStatus,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -28,7 +30,11 @@ export class PostsController {
     description: 'List of posts retrieved successfully.',
   })
   findAll(@Query('sortOrder') sortOrder: 'asc' | 'desc') {
-    return this.postsService.findAll(sortOrder);
+    try {
+      return this.postsService.findAll(sortOrder);
+    } catch (error) {
+      throw new BadRequestException('Invalid sort order.');
+    }
   }
 
   @Get(':id')
@@ -36,7 +42,11 @@ export class PostsController {
   @ApiResponse({ status: 200, description: 'Successfully retrieved post.' })
   @ApiResponse({ status: 404, description: 'Post not found.' })
   findOne(@Param('id') id: string): PostModel {
-    return this.postsService.findOne(+id);
+    const post = this.postsService.findOne(+id);
+    if (!post) {
+      throw new NotFoundException('Post not found.');
+    }
+    return post;
   }
 
   @Post()
@@ -62,7 +72,11 @@ export class PostsController {
     },
   })
   create(@Body() createPostDto: CreatePostDto): PostModel {
-    return this.postsService.create(createPostDto);
+    try {
+      return this.postsService.create(createPostDto);
+    } catch (error) {
+      throw new BadRequestException('Invalid post data.');
+    }
   }
 
   @Put(':id')
@@ -90,7 +104,11 @@ export class PostsController {
     @Param('id') id: string,
     @Body() updatePostDto: UpdatePostDto,
   ): PostModel {
-    return this.postsService.update(+id, updatePostDto);
+    const post = this.postsService.update(+id, updatePostDto);
+    if (!post) {
+      throw new NotFoundException('Post not found.');
+    }
+    return post;
   }
 
   @Delete(':id')
@@ -99,6 +117,10 @@ export class PostsController {
   @ApiResponse({ status: 204, description: 'Post deleted successfully.' })
   @ApiResponse({ status: 404, description: 'Post not found.' })
   delete(@Param('id') id: string): void {
+    const post = this.postsService.findOne(+id);
+    if (!post) {
+      throw new NotFoundException('Post not found.');
+    }
     this.postsService.delete(+id);
   }
 }

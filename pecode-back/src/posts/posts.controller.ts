@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -24,32 +23,29 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Get all posts' })
   @ApiResponse({
     status: 200,
     description: 'List of posts retrieved successfully.',
   })
+  @ApiResponse({ status: 400, description: 'Invalid sort order.' })
   findAll(@Query('sortOrder') sortOrder: 'asc' | 'desc') {
-    try {
-      return this.postsService.findAll(sortOrder);
-    } catch (error) {
-      throw new BadRequestException('Invalid sort order.');
-    }
+    return this.postsService.findAll(sortOrder);
   }
 
   @Get(':id')
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Get a post by ID' })
   @ApiResponse({ status: 200, description: 'Successfully retrieved post.' })
   @ApiResponse({ status: 404, description: 'Post not found.' })
+  @ApiResponse({ status: 500, description: 'Internal server error.' })
   findOne(@Param('id') id: string): PostModel {
-    const post = this.postsService.findOne(+id);
-    if (!post) {
-      throw new NotFoundException('Post not found.');
-    }
-    return post;
+    return this.postsService.findOne(+id);
   }
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new post' })
   @ApiResponse({
     status: 201,
@@ -72,14 +68,11 @@ export class PostsController {
     },
   })
   create(@Body() createPostDto: CreatePostDto): PostModel {
-    try {
-      return this.postsService.create(createPostDto);
-    } catch (error) {
-      throw new BadRequestException('Invalid post data.');
-    }
+    return this.postsService.create(createPostDto);
   }
 
   @Put(':id')
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Update an existing post' })
   @ApiResponse({
     status: 200,
@@ -87,6 +80,7 @@ export class PostsController {
     type: PostModel,
   })
   @ApiResponse({ status: 404, description: 'Post not found.' })
+  @ApiResponse({ status: 400, description: 'Bad Request.' })
   @ApiBody({
     type: UpdatePostDto,
     description: 'Data for updating a post',
@@ -104,11 +98,7 @@ export class PostsController {
     @Param('id') id: string,
     @Body() updatePostDto: UpdatePostDto,
   ): PostModel {
-    const post = this.postsService.update(+id, updatePostDto);
-    if (!post) {
-      throw new NotFoundException('Post not found.');
-    }
-    return post;
+    return this.postsService.update(+id, updatePostDto);
   }
 
   @Delete(':id')

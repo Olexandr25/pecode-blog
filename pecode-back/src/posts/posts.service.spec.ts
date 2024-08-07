@@ -1,4 +1,6 @@
+import { NotFoundException } from '@nestjs/common';
 import * as dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostsService } from './posts.service';
@@ -8,6 +10,11 @@ describe('PostsService', () => {
 
   beforeEach(() => {
     service = new PostsService();
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   describe('findAll', () => {
@@ -45,8 +52,8 @@ describe('PostsService', () => {
       expect(service.findOne(post.id)).toEqual(post);
     });
 
-    it('should return null if no post is found', () => {
-      expect(service.findOne(999)).toBeNull();
+    it('should throw NotFoundException if no post is found', () => {
+      expect(() => service.findOne(uuidv4())).toThrow(NotFoundException);
     });
   });
 
@@ -78,9 +85,11 @@ describe('PostsService', () => {
       expect(dayjs(updatedPost.updatedAt).isValid()).toBe(true);
     });
 
-    it('should return null when trying to update a non-existing post', () => {
+    it('should throw NotFoundException when trying to update a non-existing post', () => {
       const updatedFields: UpdatePostDto = { title: 'New Title' };
-      expect(service.update(999, updatedFields)).toBeNull();
+      expect(() => service.update(uuidv4(), updatedFields)).toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -93,7 +102,7 @@ describe('PostsService', () => {
       };
       const post = service.create(createPostDto);
       service.delete(post.id);
-      expect(service.findOne(post.id)).toBeNull();
+      expect(() => service.findOne(post.id)).toThrow(NotFoundException);
     });
   });
 });

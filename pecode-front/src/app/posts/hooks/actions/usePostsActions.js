@@ -16,6 +16,9 @@ const usePostsActions = () => {
 
   const updatePost = async (postId, postData) => {
     try {
+      if (typeof postId !== 'string' || postId.trim() === '') {
+        throw new Error('Invalid postId.')
+      }
       const response = await axios.put(`/api/posts/${postId}`, postData)
       return response.data
     } catch (error) {
@@ -29,6 +32,9 @@ const usePostsActions = () => {
 
   const deletePost = async postId => {
     try {
+      if (typeof postId !== 'string' || postId.trim() === '') {
+        throw new Error('Invalid postId.')
+      }
       await axios.delete(`/api/posts/${postId}`)
     } catch (error) {
       console.error(

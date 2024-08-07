@@ -10,9 +10,7 @@ const useFetchPosts = () => {
     const fetchData = async () => {
       try {
         setLoading(true)
-        const { data: response } = await axios.get(
-          '/api/posts'
-        )
+        const { data: response } = await axios.get('/api/posts')
         setData(response)
       } catch (error) {
         console.error('Error message:', error?.message)

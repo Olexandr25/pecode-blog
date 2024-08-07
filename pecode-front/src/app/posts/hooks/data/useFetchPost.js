@@ -21,7 +21,7 @@ const useFetchPost = postId => {
       }
     }
 
-    if (typeof postId === 'number' && postId > 0) {
+    if (typeof postId === 'string' && postId.trim() !== '') {
       fetchPost()
     } else {
       setLoading(false)

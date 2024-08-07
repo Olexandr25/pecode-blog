@@ -44,7 +44,11 @@ export class PostsService {
     return this.posts[postIndex];
   }
 
-  delete(id: number): void {
-    this.posts = this.posts.filter((post) => post.id !== id);
+  delete(id: number): boolean {
+    const postIndex = this.posts.findIndex((post) => post.id === id);
+    if (postIndex === -1) return false;
+
+    this.posts.splice(postIndex, 1);
+    return true;
   }
 }

@@ -117,10 +117,9 @@ export class PostsController {
   @ApiResponse({ status: 204, description: 'Post deleted successfully.' })
   @ApiResponse({ status: 404, description: 'Post not found.' })
   delete(@Param('id') id: string): void {
-    const post = this.postsService.findOne(+id);
-    if (!post) {
+    const success = this.postsService.delete(+id);
+    if (!success) {
       throw new NotFoundException('Post not found.');
     }
-    this.postsService.delete(+id);
   }
 }

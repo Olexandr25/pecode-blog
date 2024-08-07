@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -92,6 +94,7 @@ export class PostsController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete a post' })
   @ApiResponse({ status: 204, description: 'Post deleted successfully.' })
   @ApiResponse({ status: 404, description: 'Post not found.' })

@@ -28,10 +28,10 @@ const PostAdvancedView = ({ title, author, content, createdAt }) => {
 }
 
 PostAdvancedView.propTypes = {
-  title: PropTypes.string,
-  author: PropTypes.string,
-  content: PropTypes.string,
-  createdAt: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
 }
 
 export default PostAdvancedView

@@ -5,10 +5,7 @@ import { useFetchPost, usePostsActions } from '@/app/posts/hooks'
 import { Box, Button, Typography } from '@mui/material'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import {
-  PostAdvancedView,
-  PostLoadingView,
-} from './_components'
+import { PostAdvancedView, PostLoadingView } from './_components'
 
 const PostViewPage = () => {
   const router = useRouter()

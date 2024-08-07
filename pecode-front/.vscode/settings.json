@@ -2,6 +2,7 @@
   "cSpell.words": ["Pecode"],
   "eslint.codeActionsOnSave.rules": null,
   "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit"
   },
